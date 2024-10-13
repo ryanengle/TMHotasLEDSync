@@ -7,24 +7,62 @@
   -- A-10C/A-10C2 specific utility functions to program the state of LEDs
   -- on Thrustmaster Warthog Throttle.
   --
-  -- Author: slughead
+  -- A-10C2-specific utility functions to program the state of the LEDs 
+  -- on the Thrustmaster Viper Panel.
+  --  
+  --
+  -- Authors: slughead, fuze (10/12/2024)
   -- Date: 2/12/2023
   --
   ------------------------------------------------------------------------------*/
 
 //include "warthog_defines.tmh"
 //include "warthog_utils.tmh"
+//include "viper_utils.tmh" // REQUIRED for get_viper_device()
 
 int set_a_10c_led_status( alias led_states )
-{
+{    
     int speed_brake_position = char_to_int(led_states[1]);
-    int console_light        = char_to_int(led_states[2]);
-
+    int console_light        = char_to_int(led_states[2]);    
+   
     if (&Throttle != &joy0)
     {
         set_a_10c_speed_brake_leds( speed_brake_position );
         set_a_10c_backlight( console_light) ;
     }
+
+    // Added by fuze    
+    int gear_nose_status     = char_to_int(led_states[3]);    
+    int gear_left_status     = char_to_int(led_states[4]);
+    int gear_right_status    = char_to_int(led_states[5]);
+    int gear_warning_status  = char_to_int(led_states[6]);
+    
+    printf("Gear status: %d %d %d %d\xa", gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);         
+
+    // added by fuze    
+    int device = get_viper_device();    
+    printf("Device: %d Joy0: %d\xa", device, &joy0);
+    
+    //if (device != &joy0)
+    //{
+        printf("A-10C Set gear led: %d%d%d%d\xa", gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);
+        //set_a_10c_gear_leds(gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);
+
+        printf("LED_GEAR_NOSE: %d\xa",gear_nose_status);
+        set_led(device, LED_GEAR_NOSE,         gear_nose_status);      
+
+        printf("LED_GEAR_LEFT: %d\xa",gear_left_status);
+        set_led(device, LED_GEAR_LEFT,         gear_left_status);
+
+        printf("LED_GEAR_RIGHT: %d\xa",gear_right_status);
+        set_led(device, LED_GEAR_RIGHT,        gear_right_status);        
+
+        printf("LED_GEAR_WARNING: %d\xa",gear_warning_status);
+        set_led(device, LED_GEAR_WARNING,      gear_warning_status); 
+
+       
+        //set_a_10c_gear_leds(gear_nose_status);
+    //}
 }
 
 int set_a_10c_speed_brake_leds(int speed_brake_position)
@@ -41,5 +79,22 @@ int set_a_10c_speed_brake_leds(int speed_brake_position)
 
 int set_a_10c_backlight( int intensity )
 {
-    set_backlight( intensity );
+    set_backlight( intensity );        
+}
+
+// added by fuze
+int set_a_10c_gear_leds( int gear_nose_status, int gear_left_status, int gear_right_status, int gear_warning_status)
+{       
+    int device = &ViperTQS;
+    printf("LED_GEAR_NOSE: %d\xa",gear_nose_status);
+    set_led(&ViperTQS, LED_GEAR_NOSE,         gear_nose_status);      
+
+    printf("LED_GEAR_LEFT: %d\xa",gear_left_status);
+    set_led(&ViperTQS, LED_GEAR_LEFT,         gear_left_status);
+
+    printf("LED_GEAR_RIGHT: %d\xa",gear_right_status);
+    set_led(&ViperTQS, LED_GEAR_RIGHT,        gear_right_status);        
+
+    printf("LED_GEAR_WARNING: %d\xa",gear_warning_status);
+    set_led(&ViperTQS, LED_GEAR_WARNING,      gear_warning_status);        
 }
