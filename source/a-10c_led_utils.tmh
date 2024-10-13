@@ -37,31 +37,28 @@ int set_a_10c_led_status( alias led_states )
     int gear_right_status    = char_to_int(led_states[5]);
     int gear_warning_status  = char_to_int(led_states[6]);
     
-    printf("Gear status: %d %d %d %d\xa", gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);         
+    //printf("Gear status: %d %d %d %d\xa", gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);         
 
     // added by fuze    
     int device = get_viper_device();    
-    printf("Device: %d Joy0: %d\xa", device, &joy0);
+    //printf("Device: %d Joy0: %d\xa", device, &joy0);
     
     //if (device != &joy0)
     //{
-        printf("A-10C Set gear led: %d%d%d%d\xa", gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);
+        //printf("A-10C Set gear led: %d%d%d%d\xa", gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);
         //set_a_10c_gear_leds(gear_nose_status, gear_left_status, gear_right_status, gear_warning_status);
 
-        printf("LED_GEAR_NOSE: %d\xa",gear_nose_status);
+        //printf("LED_GEAR_NOSE: %d\xa",gear_nose_status);
         set_led(device, LED_GEAR_NOSE,         gear_nose_status);      
 
-        printf("LED_GEAR_LEFT: %d\xa",gear_left_status);
+        //printf("LED_GEAR_LEFT: %d\xa",gear_left_status);
         set_led(device, LED_GEAR_LEFT,         gear_left_status);
 
-        printf("LED_GEAR_RIGHT: %d\xa",gear_right_status);
+        //printf("LED_GEAR_RIGHT: %d\xa",gear_right_status);
         set_led(device, LED_GEAR_RIGHT,        gear_right_status);        
 
-        printf("LED_GEAR_WARNING: %d\xa",gear_warning_status);
+        //printf("LED_GEAR_WARNING: %d\xa",gear_warning_status);
         set_led(device, LED_GEAR_WARNING,      gear_warning_status); 
-
-       
-        //set_a_10c_gear_leds(gear_nose_status);
     //}
 }
 
@@ -80,21 +77,4 @@ int set_a_10c_speed_brake_leds(int speed_brake_position)
 int set_a_10c_backlight( int intensity )
 {
     set_backlight( intensity );        
-}
-
-// added by fuze
-int set_a_10c_gear_leds( int gear_nose_status, int gear_left_status, int gear_right_status, int gear_warning_status)
-{       
-    int device = &ViperTQS;
-    printf("LED_GEAR_NOSE: %d\xa",gear_nose_status);
-    set_led(&ViperTQS, LED_GEAR_NOSE,         gear_nose_status);      
-
-    printf("LED_GEAR_LEFT: %d\xa",gear_left_status);
-    set_led(&ViperTQS, LED_GEAR_LEFT,         gear_left_status);
-
-    printf("LED_GEAR_RIGHT: %d\xa",gear_right_status);
-    set_led(&ViperTQS, LED_GEAR_RIGHT,        gear_right_status);        
-
-    printf("LED_GEAR_WARNING: %d\xa",gear_warning_status);
-    set_led(&ViperTQS, LED_GEAR_WARNING,      gear_warning_status);        
 }
