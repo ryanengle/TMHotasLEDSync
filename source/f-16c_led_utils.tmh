@@ -10,6 +10,7 @@
   -- Author: slughead
   -- Date: 26/11/2023
   --
+  -- Updated 02/12/2024 RDE
   ------------------------------------------------------------------------------*/
 
 //include "viper_defines.tmh"
@@ -40,7 +41,10 @@ int set_f_16c_led_status( alias led_states )
         set_led(device, LED_GEAR_WARNING,      gear_warning_status);
 
         set_led(device, LED_RWR_SEARCH,        rwr_search_status);
-        set_led(device, LED_RWR_A_POWER,       rwr_activity_status);
+        // LED_RWR_A_POWER being set by the incorrect led_state:
+        //set_led(device, LED_RWR_A_POWER,       rwr_activity_status);
+        // LED_RWR_A_POWER being set by the correct led_state (fixed by RDE):
+        set_led(device, LED_RWR_A_POWER,       rwr_a_power_status); 
 
         // Thrustmaster limitation for ACT/PWR indication - only one LED.
         // Power should be lit when rwr_system_power_status is on and A
